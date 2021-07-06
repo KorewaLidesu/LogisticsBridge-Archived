@@ -22,7 +22,7 @@ import java.util.ListIterator;
 
 public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
     public static final String ID = "lb.satellite";
-    public String satelliteId;
+    public String satellitePartId = "";
     private final List<ItemStack> itemsToInsert = new ArrayList<>();
 
     public NetworkNodeSatellite(World world, BlockPos pos) {
@@ -83,7 +83,7 @@ public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
     @Override
     public NBTTagCompound write(NBTTagCompound extra) {
         super.write(extra);
-        extra.setString("satName", satelliteId);
+        extra.setString("satName", satellitePartId);
         NBTTagList lst = new NBTTagList();
         itemsToInsert.stream().map(s -> {
             NBTTagCompound tag = new NBTTagCompound();
@@ -97,7 +97,7 @@ public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
     @Override
     public void read(NBTTagCompound extra) {
         super.read(extra);
-        satelliteId = extra.getString("satName");
+        satellitePartId = extra.getString("satName");
         NBTTagList lst = extra.getTagList("itemsToInsert", 10);
         itemsToInsert.clear();
         for (int i = 0; i < lst.tagCount(); i++) {
@@ -112,7 +112,7 @@ public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
 
     @Override
     public String getPipeID(int id) {
-        return satelliteId;
+        return satellitePartId;
     }
 
     @Override
@@ -124,7 +124,7 @@ public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
             final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setBlockPos(getPos()).setDimension(getWorld());
             MainProxy.sendPacketToPlayer(packet, player);
         }
-        satelliteId = pipeID;
+        satellitePartId = pipeID;
     }
 
     @Override
@@ -132,3 +132,5 @@ public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
         return "gui.satelliteBus.id";
     }
 }
+
+//satelliteId
