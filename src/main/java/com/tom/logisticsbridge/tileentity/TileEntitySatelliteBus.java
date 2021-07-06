@@ -2,12 +2,12 @@ package com.tom.logisticsbridge.tileentity;
 
 import com.raoulvdberge.refinedstorage.tile.TileNode;
 import com.tom.logisticsbridge.LogisticsBridge;
-import com.tom.logisticsbridge.network.SetIDPacket;
-import com.tom.logisticsbridge.network.SetIDPacket.IIdPipe;
 import com.tom.logisticsbridge.node.NetworkNodeSatellite;
 import logisticspipes.network.PacketHandler;
 import logisticspipes.network.abstractpackets.ModernPacket;
 import logisticspipes.proxy.MainProxy;
+import logisticspipes.network.packets.satpipe.SatelliteSetNamePacket;
+import network.rs485.logisticspipes.SatellitePipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileEntitySatelliteBus extends TileNode<NetworkNodeSatellite> implements IIdPipe {
+public class TileEntitySatelliteBus extends TileNode<NetworkNodeSatellite> implements SatellitePipe {
 
     @Override
     public NetworkNodeSatellite createNode(World world, BlockPos pos) {
@@ -50,7 +50,7 @@ public class TileEntitySatelliteBus extends TileNode<NetworkNodeSatellite> imple
             player.inventoryContainer.detectAndSendChanges();
         } else {
             player.openGui(LogisticsBridge.modInstance, 5, world, pos.getX(), pos.getY(), pos.getZ());
-            ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(getNode().satelliteId).setId(0).setPosX(pos.getX()).setPosY(pos.getY()).setPosZ(pos.getZ());
+            ModernPacket packet = PacketHandler.getPacket(SatelliteSetNamePacket.class).setName(getNode().satelliteId).setId(0).setPosX(pos.getX()).setPosY(pos.getY()).setPosZ(pos.getZ());
             MainProxy.sendPacketToPlayer(packet, player);
         }
     }
