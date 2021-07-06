@@ -120,7 +120,7 @@ public class ContainerPackage extends Container implements Consumer<String> {
 
         @Override
         public int getSlotStackLimit() {
-            return 1;
+            return 64;
         }
 
         @Override
