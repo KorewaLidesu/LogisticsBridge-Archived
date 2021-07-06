@@ -55,7 +55,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
 
     @PartModels
     public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, new ResourceLocation(LogisticsBridge.ID, "part/satellite_bus_has_channel"));
-    public String satelliteId;
+    public String satellitePartId;
     private final List<IAEItemStack> itemsToInsert = new ArrayList<>();
 
     @Reflected
@@ -144,8 +144,8 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
             else
                 return MODELS_ON;
         }
-
-        return MODELS_OFF;
+        else
+            return MODELS_OFF;
     }
 
     @Override
@@ -155,13 +155,13 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
                 ItemStack is = player.getHeldItem(hand);
                 if (!is.hasTagCompound())
                     is.setTagCompound(new NBTTagCompound());
-                is.getTagCompound().setString("__pkgDest", satelliteId);
+                is.getTagCompound().setString("__pkgDest", satellitePartId);
                 player.inventoryContainer.detectAndSendChanges();
             } else {
                 TileEntity tile = this.getHost().getTile();
                 BlockPos pos = tile.getPos();
                 player.openGui(LogisticsBridge.modInstance, 100 + getSide().ordinal(), tile.getWorld(), pos.getX(), pos.getY(), pos.getZ());
-                final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(satelliteId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
+                final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(satellitePartId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
                 MainProxy.sendPacketToPlayer(packet, player);
             }
         }
@@ -171,7 +171,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
 
     @Override
     public String getPipeID(int id) {
-        return satelliteId;
+        return satellitePartId;
     }
 
     @Override
@@ -183,7 +183,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
             final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setSide(getSide().ordinal()).setTilePos(getTile());
             MainProxy.sendPacketToPlayer(packet, player);
         }
-        satelliteId = pipeID;
+        satellitePartId = pipeID;
     }
 
     @Override
@@ -194,7 +194,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
     @Override
     public void writeToNBT(NBTTagCompound extra) {
         super.writeToNBT(extra);
-        extra.setString("satName", satelliteId);
+        extra.setString("satName", satellitePartId);
         NBTTagList lst = new NBTTagList();
         itemsToInsert.stream().map(s -> {
             NBTTagCompound tag = new NBTTagCompound();
@@ -207,7 +207,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
     @Override
     public void readFromNBT(NBTTagCompound extra) {
         super.readFromNBT(extra);
-        satelliteId = extra.getString("satName");
+        satellitePartId = extra.getString("satName");
         NBTTagList lst = extra.getTagList("itemsToInsert", 10);
         itemsToInsert.clear();
         IItemStorageChannel items = AE2Plugin.INSTANCE.api.storage().getStorageChannel(IItemStorageChannel.class);
@@ -242,3 +242,5 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
         return super.getHandler();
     }
 }
+
+// satelliteId
