@@ -178,12 +178,12 @@ public class NetworkNodeCraftingManager extends NetworkNode implements IIdPipe, 
     @Override
     public List<String> list(int id) {
         return network.getNodeGraph().all().stream().filter(n -> n instanceof NetworkNodeSatellite).
-                map(n -> ((NetworkNodeSatellite) n).satelliteId).collect(Collectors.toList());
+                map(n -> ((NetworkNodeSatellite) n).satellitePartId).collect(Collectors.toList());
     }
 
     private NetworkNodeSatellite find(String id) {
         return network.getNodeGraph().all().stream().filter(n -> n instanceof NetworkNodeSatellite).
-                map(n -> (NetworkNodeSatellite) n).filter(n -> id.equals(n.satelliteId)).findFirst().
+                map(n -> (NetworkNodeSatellite) n).filter(n -> id.equals(n.satellitePartId)).findFirst().
                 orElse(null);
     }
 
