@@ -23,11 +23,10 @@ import appeng.util.Platform;
 import appeng.util.item.AEItemStack;
 import com.tom.logisticsbridge.AE2Plugin;
 import com.tom.logisticsbridge.LogisticsBridge;
-import com.tom.logisticsbridge.network.SetIDPacket;
-import com.tom.logisticsbridge.network.SetIDPacket.IIdPipe;
 import logisticspipes.network.PacketHandler;
 import logisticspipes.network.abstractpackets.ModernPacket;
 import logisticspipes.proxy.MainProxy;
+import network.rs485.logisticspipes.SatellitePipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
+public class PartSatelliteBus extends PartSharedItemBus implements SatellitePipe {
     public static final ResourceLocation MODEL_BASE = new ResourceLocation(LogisticsBridge.ID, "part/satellite_bus_base");
 
     @PartModels
@@ -161,7 +160,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
                 TileEntity tile = this.getHost().getTile();
                 BlockPos pos = tile.getPos();
                 player.openGui(LogisticsBridge.modInstance, 100 + getSide().ordinal(), tile.getWorld(), pos.getX(), pos.getY(), pos.getZ());
-                final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(satelliteId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
+                final ModernPacket packet = PacketHandler.getPacket(SatelliteSetNamePacket.class).setName(satelliteId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
                 MainProxy.sendPacketToPlayer(packet, player);
             }
         }
@@ -177,10 +176,10 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
     @Override
     public void setPipeID(int id, String pipeID, EntityPlayer player) {
         if (player == null) {
-            final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setSide(getSide().ordinal()).setTilePos(getTile());
+            final ModernPacket packet = PacketHandler.getPacket(SatelliteSetNamePacket.class).setName(pipeID).setId(id).setSide(getSide().ordinal()).setTilePos(getTile());
             MainProxy.sendPacketToServer(packet);
         } else if (MainProxy.isServer(player.world)) {
-            final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setSide(getSide().ordinal()).setTilePos(getTile());
+            final ModernPacket packet = PacketHandler.getPacket(SatelliteSetNamePacket.class).setName(pipeID).setId(id).setSide(getSide().ordinal()).setTilePos(getTile());
             MainProxy.sendPacketToPlayer(packet, player);
         }
         satelliteId = pipeID;
