@@ -25,6 +25,7 @@ import com.tom.logisticsbridge.AE2Plugin;
 import com.tom.logisticsbridge.LogisticsBridge;
 import logisticspipes.network.PacketHandler;
 import logisticspipes.network.abstractpackets.ModernPacket;
+import logisticspipes.network.packets.satpipe.SatelliteSetNamePacket;
 import logisticspipes.proxy.MainProxy;
 import network.rs485.logisticspipes.SatellitePipe;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,6 +56,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements SatellitePipe
     @PartModels
     public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, new ResourceLocation(LogisticsBridge.ID, "part/satellite_bus_has_channel"));
     public String satelliteId = "";
+    private final SatellitePipe satelliteId;
     private final List<IAEItemStack> itemsToInsert = new ArrayList<>();
 
     @Reflected
