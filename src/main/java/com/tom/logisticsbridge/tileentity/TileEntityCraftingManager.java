@@ -145,7 +145,7 @@ public class TileEntityCraftingManager extends AENetworkInvTile implements ITick
             IGridHost h = node.getMachine();
             if (h instanceof PartSatelliteBus) {
                 PartSatelliteBus satellite = (PartSatelliteBus) h;
-                if (satellite.satelliteId.equals(id)) {
+                if (satellite.satellitePartId.equals(id)) {
                     return satellite;
                 }
             }
@@ -400,7 +400,7 @@ public class TileEntityCraftingManager extends AENetworkInvTile implements ITick
             IGridHost h = node.getMachine();
             if (h instanceof PartSatelliteBus) {
                 PartSatelliteBus satellite = (PartSatelliteBus) h;
-                ret.add(satellite.satelliteId);
+                ret.add(satellite.satellitePartId);
             }
         }
 
