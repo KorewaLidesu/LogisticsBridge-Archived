@@ -1,11 +1,11 @@
 package com.tom.logisticsbridge.node;
 
 import com.raoulvdberge.refinedstorage.apiimpl.network.node.NetworkNode;
-import com.tom.logisticsbridge.network.SetIDPacket;
-import com.tom.logisticsbridge.network.SetIDPacket.IIdPipe;
 import logisticspipes.network.PacketHandler;
 import logisticspipes.network.abstractpackets.ModernPacket;
 import logisticspipes.proxy.MainProxy;
+import logisticspipes.network.packets.satpipe.SatelliteSetNamePacket;
+import network.rs485.logisticspipes.SatellitePipe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
+public class NetworkNodeSatellite extends NetworkNode implements SatellitePipe {
     public static final String ID = "lb.satellite";
     public String satelliteId = "";
     private final List<ItemStack> itemsToInsert = new ArrayList<>();
@@ -118,10 +118,10 @@ public class NetworkNodeSatellite extends NetworkNode implements IIdPipe {
     @Override
     public void setPipeID(int id, String pipeID, EntityPlayer player) {
         if (player == null) {
-            final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setBlockPos(getPos()).setDimension(getWorld());
+            final ModernPacket packet = PacketHandler.getPacket(SatelliteSetNamePacket.class).setName(pipeID).setId(id).setBlockPos(getPos()).setDimension(getWorld());
             MainProxy.sendPacketToServer(packet);
         } else if (MainProxy.isServer(player.world)) {
-            final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setBlockPos(getPos()).setDimension(getWorld());
+            final ModernPacket packet = PacketHandler.getPacket(SatelliteSetNamePacket.class).setName(pipeID).setId(id).setBlockPos(getPos()).setDimension(getWorld());
             MainProxy.sendPacketToPlayer(packet, player);
         }
         satelliteId = pipeID;
