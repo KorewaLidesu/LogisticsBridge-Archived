@@ -19,7 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileEntitySatelliteBus extends TileNode<NetworkNodeSatellite> implements IIdPipe {
+public class TileEntitySatelliteBus extends TileNode<NetworkNodeSatellite> implements IIdPipe, SatellitePipe {
 
     @Override
     public NetworkNodeSatellite createNode(World world, BlockPos pos) {
@@ -32,18 +32,30 @@ public class TileEntitySatelliteBus extends TileNode<NetworkNodeSatellite> imple
     }
 
     @Override
-    public String getPipeID(int id) {
-        return getNode().getPipeID(id);
+    public String getPipeID(int fid) {
+        return resultPipeName;
     }
 
     @Override
-    public void setPipeID(int id, String pipeID, EntityPlayer player) {
-        getNode().setPipeID(id, pipeID, player);
+    public void setPipeID(int fid, String integer, EntityPlayer player) {
+        if (player == null) {
+            final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(integer).setId(fid).setPosX(getX()).setPosY(getY()).setPosZ(getZ());
+            MainProxy.sendPacketToServer(packet);
+        } else if (MainProxy.isServer(player.world)) {
+            final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(integer).setId(fid).setPosX(getX()).setPosY(getY()).setPosZ(getZ());
+            MainProxy.sendPacketToPlayer(packet, player);
+        }
+        this.resultPipeName = integer;
+        ensureAllSatelliteStatus();
     }
 
     @Override
     public String getName(int id) {
-        return getNode().getName(id);
+        return "gui.satelliteBus.id";
+    }
+    
+    public String getSatelliteBusName() {
+        return resultPipeName;
     }
 
     public void openGui(EntityPlayer player, EnumHand hand) {
