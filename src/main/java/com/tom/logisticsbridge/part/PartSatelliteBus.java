@@ -166,7 +166,7 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe, Sate
                 TileEntity tile = this.getHost().getTile();
                 BlockPos pos = tile.getPos();
                 player.openGui(LogisticsBridge.modInstance, 100 + getSide().ordinal(), tile.getWorld(), pos.getX(), pos.getY(), pos.getZ());
-                final ModernPacket packet = PacketHandler.getPacket(SyncAESateNamePacket.class).setString(satelliteId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
+                final ModernPacket packet = PacketHandler.getPacket(SyncAESateNamePacket.class).setName(satelliteId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
                 MainProxy.sendPacketToPlayer(packet, player);
             }
         }
@@ -184,6 +184,11 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe, Sate
             MainProxy.sendPacketToPlayer(packet, player);
         }
         satelliteId = pipeID;
+    }
+    
+    @Override
+    public String getPipeID(int id) {
+        return satelliteId;
     }
 
     @Override
