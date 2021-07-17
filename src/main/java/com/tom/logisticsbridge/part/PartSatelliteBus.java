@@ -26,6 +26,7 @@ import com.tom.logisticsbridge.AE2Plugin;
 import com.tom.logisticsbridge.LogisticsBridge;
 import com.tom.logisticsbridge.network.SetIDPacket;
 import com.tom.logisticsbridge.network.SetIDPacket.IIdPipe;
+import com.tom.logisticsbridge.network.SyncAESateNamePacket;
 
 import logisticspipes.network.PacketHandler;
 import logisticspipes.network.abstractpackets.ModernPacket;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
+public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe, SatellitePipe {
     public static final ResourceLocation MODEL_BASE = new ResourceLocation(LogisticsBridge.ID, "part/satellite_bus_base");
 
     @PartModels
@@ -174,11 +175,6 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
     }
 
     @Override
-    public String getPipeID(int id) {
-        return satelliteId;
-    }
-
-    @Override
     public void setPipeID(int id, String pipeID, EntityPlayer player) {
         if (player == null) {
             final ModernPacket packet = PacketHandler.getPacket(SetIDPacket.class).setName(pipeID).setId(id).setSide(getSide().ordinal()).setTilePos(getTile());
@@ -239,6 +235,16 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe {
         if (!is.isEmpty())
             itemsToInsert.add(items.createStack(is));
         return true;
+    }
+    
+    @Override
+    public String getSatellitePipeName() {
+        return satelliteId;
+    }
+
+    @Override
+    public void setSatellitePipeName(@Nonnull String s) {
+        this.satelliteId = s;
     }
 
     @Override
