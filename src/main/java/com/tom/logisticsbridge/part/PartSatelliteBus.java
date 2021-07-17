@@ -165,9 +165,9 @@ public class PartSatelliteBus extends PartSharedItemBus implements IIdPipe, Sate
             } else {
                 TileEntity tile = this.getHost().getTile();
                 BlockPos pos = tile.getPos();
-                entityplayer.openGui(LogisticsBridge.modInstance, 100 + getSide().ordinal(), tile.getWorld(), pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(LogisticsBridge.modInstance, 100 + getSide().ordinal(), tile.getWorld(), pos.getX(), pos.getY(), pos.getZ());
                 final ModernPacket packet = PacketHandler.getPacket(SyncAESateNamePacket.class).setString(satelliteId).setId(0).setSide(getSide().ordinal()).setTilePos(getTile());
-                MainProxy.sendPacketToPlayer(packet, entityplayer);
+                MainProxy.sendPacketToPlayer(packet, player);
             }
         }
 
