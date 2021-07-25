@@ -23,7 +23,7 @@ apply plugin: 'net.minecraftforge.gradle'
 def forge_version = '1.12.2-14.23.5.2854'
 def mappings_version = '20171120-1.12'
 
-version = mod_version
+version = $steps.vars.outputs.version
 
 minecraft {
     mappings channel: 'snapshot', version: mappings_version
