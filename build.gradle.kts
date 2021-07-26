@@ -1,8 +1,9 @@
 import net.minecraftforge.gradle.user.UserBaseExtension
 import java.util.*
 
+val kotlin_version = "1.5.0"
+
 buildscript {
-    ext.kotlin_version = "1.5.0"
 	
     repositories {
         mavenCentral()
@@ -15,7 +16,7 @@ buildscript {
 
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        classpath(group = "net.minecraftforge.gradle.forge", name = "ForgeGradle", version = "3.+", changing = true)
+        classpath("net.minecraftforge.gradle.forge:ForgeGradle:3.+")
     }
 }
 
