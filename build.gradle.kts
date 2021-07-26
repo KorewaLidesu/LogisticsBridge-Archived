@@ -15,7 +15,7 @@ buildscript {
 
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        classpath("net.minecraftforge.gradle.forge:ForgeGradle:3.+")
+        classpath("net.minecraftforge.gradle:ForgeGradle:3.+")
     }
 }
 
@@ -23,7 +23,7 @@ apply {
 	plugin("kotlin")
 	plugin("java")
 	plugin("java-library")
-	plugin("net.minecraftforge.gradle.forge")
+	plugin("net.minecraftforge.gradle")
 }
 
 val config: Properties = file("build.properties").inputStream().let {
