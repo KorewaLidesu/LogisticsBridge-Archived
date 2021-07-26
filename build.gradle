@@ -1,3 +1,6 @@
+import org.apache.commons.lang3.StringUtils
+import java.util.*
+
 buildscript {
     ext.kotlin_version = '1.5.0'
 
@@ -20,10 +23,32 @@ apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'net.minecraftforge.gradle'
 
-def forge_version = '1.12.2-14.23.5.2854'
-def mappings_version = '20171120-1.12'
+val config: Properties = file("build.properties").inputStream().let {
+    val prop = Properties()
+    prop.load(it)
+    return@let prop
+}
 
-version = $steps.vars.outputs.version
+val mcVersion = config["minecraft.version"] as String
+val forge_version = "$mcVersion-${config["forge.version"]}"
+val shortVersion = mcVersion.substring(0, mcVersion.lastIndexOf("."))
+val strippedVersion = shortVersion.replace(".", "") + "0"
+val mappings_version = config["mappings.version"] as String
+
+val LPVersion = config["lp.ver"] as String
+val neiVersion = config["nei.ver"] as String
+val mcmpVersion = config["mcmp.ver"] as String
+val cofhcVersion = config["cofhc.ver"] as String
+val cofhwVersion = config["cofhw.ver"] as String
+val rfVersion = config["rf.ver"] as String
+val tfVersion = config["tf.ver"] as String
+val teVersion = config["te.ver"] as String
+val tdVersion = config["td.ver"] as String
+val rsVersion = config["rs.ver"] as String
+val aeVersion = config["ae.ver"] as String
+
+val modVersion = getVersionFromJava(file("src/main/java/com/tom/logisticsbridge/LBVersion.java"))
+version = "$mcVersion-$modVersion"
 
 minecraft {
     mappings channel: 'snapshot', version: mappings_version
@@ -75,22 +100,22 @@ dependencies {
     //
     minecraft group: 'net.minecraftforge', name: 'forge', version: forge_version
     //
-    compileOnly ":logisticspipes-0.10.4.3-api"
-    compileOnly ":NotEnoughItems-1.12.2-2.4.3.245-deobf"
-    implementation ":logisticspipes-0.10.4.3-deobf"
-    api fg.deobf (":MCMultiPart-2.5.3")
-    api fg.deobf (":ThermalDynamics-1.12.2-2.5.6.1-universal")
-    api fg.deobf (":refinedstorage-1.6.16")
-    api fg.deobf (":appliedenergistics2-rv6-stable-7")
+    compileOnly ":logisticspipes-$LPVersion-api"
+    compileOnly ":NotEnoughItems-$mcVersion-$neiVersion"
+    implementation ":logisticspipes-$LPVersion-deobf"
+    api fg.deobf (":MCMultiPart-$mcmpVersion")
+    api fg.deobf (":ThermalDynamics-$mcVersion-$tdVersion")
+    api fg.deobf (":refinedstorage-$rsVersion")
+    api fg.deobf (":appliedenergistics2-$aeVersion")
     //
-    runtimeOnly ":refinedstorage-1.6.16"
-    runtimeOnly ":MCMultiPart-2.5.3"
-    runtimeOnly ":ThermalExpansion-1.12.2-5.5.7.1-universal"
-    runtimeOnly ":ThermalFoundation-1.12.2-2.6.7.1-universal"
-    runtimeOnly ":CoFHCore-1.12.2-4.6.6.1-deobf"
-    runtimeOnly ":CoFHWorld-1.12.2-1.4.0.1-universal"
-    runtimeOnly ":RedstoneFlux-1.12-2.1.1.1-deobf"
-    runtimeOnly ":CodeChickenLib-1.12.2"
+    runtimeOnly ":refinedstorage-$rsVersion"
+    runtimeOnly ":MCMultiPart-$mcmpVersion"
+    runtimeOnly ":ThermalExpansion-$mcVersion-$teVersion"
+    runtimeOnly ":ThermalFoundation-$mcVersion-$tfVersion"
+    runtimeOnly ":CoFHCore-$mcVersion-$cofhcVersion"
+    runtimeOnly ":CoFHWorld-$mcVersion-$cofhwVersion"
+    runtimeOnly ":RedstoneFlux-1.12-$rfVersion"
+    runtimeOnly ":CodeChickenLib-$mcVersion"
     // https://mvnrepository.com/artifact/javassist/javassist
     shade group: 'javassist', name: 'javassist', version: '3.12.1.GA'
 }
