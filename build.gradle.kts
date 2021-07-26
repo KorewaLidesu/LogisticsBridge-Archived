@@ -9,17 +9,18 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            setUrl= "https://maven.minecraftforge.net/"
+            setUrl("https://maven.minecraftforge.net/")
         }
     }
 
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        classpath(group = 'net.minecraftforge.gradle', name = 'ForgeGradle', version = '3.+', changing = true)
+        classpath(group = 'net.minecraftforge.gradle.forge', name = 'ForgeGradle', version = '3.+', changing = true)
     }
 }
 
 apply {
+	plugin("kotlin")
 	plugin("java")
 	plugin("java-library")
 	plugin("net.minecraftforge.gradle.forge")
