@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-apply{
+apply {
 	plugin("java")
 	plugin("java-library")
 	plugin("net.minecraftforge.gradle.forge")
