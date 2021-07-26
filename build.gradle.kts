@@ -1,9 +1,8 @@
 import net.minecraftforge.gradle.user.UserBaseExtension
 import java.util.*
 
-val kotlin_version = "1.5.0"
-
 buildscript {
+    ext.kotlin_version = "1.5.0"
 	
     repositories {
         mavenCentral()
