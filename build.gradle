@@ -35,7 +35,7 @@ val shortVersion = mcVersion.substring(0, mcVersion.lastIndexOf("."))
 val strippedVersion = shortVersion.replace(".", "") + "0"
 val mappings_version = config["mappings.version"] as String
 
-val LPVersion = config["lp.ver"] as String
+val lpVersion = config["lp.ver"] as String
 val neiVersion = config["nei.ver"] as String
 val mcmpVersion = config["mcmp.ver"] as String
 val cofhcVersion = config["cofhc.ver"] as String
@@ -100,9 +100,9 @@ dependencies {
     //
     minecraft group: 'net.minecraftforge', name: 'forge', version: forge_version
     //
-    compileOnly ":logisticspipes-$LPVersion-api"
+    compileOnly ":logisticspipes-$lpVersion-api"
     compileOnly ":NotEnoughItems-$mcVersion-$neiVersion"
-    implementation ":logisticspipes-$LPVersion-deobf"
+    implementation ":logisticspipes-$lpVersion-deobf"
     api fg.deobf (":MCMultiPart-$mcmpVersion")
     api fg.deobf (":ThermalDynamics-$mcVersion-$tdVersion")
     api fg.deobf (":refinedstorage-$rsVersion")
