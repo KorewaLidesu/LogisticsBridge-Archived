@@ -4,6 +4,7 @@
   "name" : "Logistics Bridge",
   "description": "",
   "version": "${version}",
+  "mcversion": "${mcversion}",
   "url" : "",
   "authorList": ["tom5454", "DomamaN202", "SotS", "KorewaLidesu", "NelkGames"],
   "logoFile" : "logo.png"
