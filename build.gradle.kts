@@ -15,7 +15,7 @@ buildscript {
 
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        classpath group("net.minecraftforge.gradle"), name("ForgeGradle"), version("3.+"), changing(true)
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "3.+", changing true)
     }
 }
 
@@ -57,17 +57,17 @@ minecraft {
     version = mappings_version
     runs {
         client {
-            workingDirectory project.file("run")
+            runDir = "run"
 
-            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-            property "forge.logging.console.level", "debug"
+            property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
+            property("forge.logging.console.level", "debug")
         }
 
         server {
-            workingDirectory project.file("run-server")
+            runDir = "run-server"
 
-            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-            property "forge.logging.console.level", "debug"
+            property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
+            property("forge.logging.console.level", "debug")
         }
     }
 }
@@ -87,28 +87,28 @@ repositories {
         name = "forge"
         setUrl("https://libraries.minecraft.net")
     } 
-    flatDir { dirs "./lib" }
+    flatDir { dirs("./lib") }
 }
 
 configurations {
     shade
-    implementation.extendsFrom shade
+    implementation.extendsFrom(shade)
 }
 
 dependencies {
-    implementation group("org.jetbrains.kotlin"), name("kotlin-stdlib"), version(kotlin_version)
-    implementation group("org.jetbrains.kotlin"), name("kotlin-stdlib-jdk8"), version(kotlin_version)
+    implementation(group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version = kotlin_version)
+    implementation(group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version = kotlin_version)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     //
-    minecraft group("net.minecraftforge"), name("forge"), version(forge_version)
+    minecraft(group = "net.minecraftforge", name = "forge", version = forge_version)
     //
     compileOnly(":logisticspipes-$lpVersion-api")
     compileOnly(":NotEnoughItems-$mcVersion-$neiVersion")
     implementation(":logisticspipes-$lpVersion-deobf")
-    api fg.deobf (":MCMultiPart-$mcmpVersion")
-    api fg.deobf (":ThermalDynamics-$mcVersion-$tdVersion")
-    api fg.deobf (":refinedstorage-$rsVersion")
-    api fg.deobf (":appliedenergistics2-$aeVersion")
+    api fg.deobf(":MCMultiPart-$mcmpVersion")
+    api fg.deobf(":ThermalDynamics-$mcVersion-$tdVersion")
+    api fg.deobf(":refinedstorage-$rsVersion")
+    api fg.deobf(":appliedenergistics2-$aeVersion")
     //
     runtimeOnly(":refinedstorage-$rsVersion")
     runtimeOnly(":MCMultiPart-$mcmpVersion")
@@ -119,7 +119,7 @@ dependencies {
     runtimeOnly(":RedstoneFlux-1.12-$rfVersion")
     runtimeOnly(":CodeChickenLib-$mcVersion")
     // https://mvnrepository.com/artifact/javassist/javassist
-    shade group("javassist"), name("javassist"), version("3.12.1.GA")
+    shade(group = "javassist", name = "javassist", version = "3.12.1.GA")
 }
 
 tasks.withType(Wrapper) {
@@ -151,7 +151,7 @@ val jar: Jar by tasks
 jar.apply {
     configurations.shade.each { dep ->
         from(project.zipTree(dep)) {
-            exclude "META-INF", "META-INF/**"
+            exclude("META-INF", "META-INF/**")
         }
     }
 }
