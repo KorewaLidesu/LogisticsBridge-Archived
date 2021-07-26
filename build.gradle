@@ -22,35 +22,36 @@ apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'net.minecraftforge.gradle'
 
-val config: Properties = file("build.properties").inputStream().let {
-    val prop = Properties()
+def Properties = file("build.properties").inputStream().let {
+    def prop = Properties()
     prop.load(it)
     return@let prop
 }
 
-val mcVersion = config["minecraft.version"] as String
-val forge_version = "$mcVersion-${config["forge.version"]}"
-val shortVersion = mcVersion.substring(0, mcVersion.lastIndexOf("."))
-val strippedVersion = shortVersion.replace(".", "") + "0"
-val mappings_version = config["mappings.version"] as String
+def mcVersion = config["minecraft.version"] as String
+def forge_version = "$mcVersion-${config["forge.version"]}"
+def shortVersion = mcVersion.substring(0, mcVersion.lastIndexOf("."))
+def strippedVersion = shortVersion.replace(".", "") + "0"
+def mappings_version = config["mappings.version"] as String
 
-val lpVersion = config["lp.ver"] as String
-val neiVersion = config["nei.ver"] as String
-val mcmpVersion = config["mcmp.ver"] as String
-val cofhcVersion = config["cofhc.ver"] as String
-val cofhwVersion = config["cofhw.ver"] as String
-val rfVersion = config["rf.ver"] as String
-val tfVersion = config["tf.ver"] as String
-val teVersion = config["te.ver"] as String
-val tdVersion = config["td.ver"] as String
-val rsVersion = config["rs.ver"] as String
-val aeVersion = config["ae.ver"] as String
+def lpVersion = config["lp.ver"] as String
+def neiVersion = config["nei.ver"] as String
+def mcmpVersion = config["mcmp.ver"] as String
+def cofhcVersion = config["cofhc.ver"] as String
+def cofhwVersion = config["cofhw.ver"] as String
+def rfVersion = config["rf.ver"] as String
+def tfVersion = config["tf.ver"] as String
+def teVersion = config["te.ver"] as String
+def tdVersion = config["td.ver"] as String
+def rsVersion = config["rs.ver"] as String
+def aeVersion = config["ae.ver"] as String
 
-val modVersion = getVersionFromJava(file("src/main/java/com/tom/logisticsbridge/LBVersion.java"))
+def modVersion = getVersionFromJava(file("src/main/java/com/tom/logisticsbridge/LBVersion.java"))
 version = "$mcVersion-$modVersion"
 
 minecraft {
-    mappings channel: 'snapshot', version: mappings_version
+    mappings = 'snapshot'
+    version = mappings_version
 
     runs {
         client {
